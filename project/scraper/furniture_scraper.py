@@ -98,26 +98,6 @@ class Scraper:
         }
         return (s3_bucket_credentials, rds_credentials)
 
-    def data_storage_credentials(self) -> tuple:
-        s3_bucket_credentials = {
-            'bucket_name': 'aicore-data-collection',
-            'access_key_id': 'AKIA6I6IST3FZSVPDY6E',
-            'secret_access_key': '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',
-            'bucket_region': 'eu-west-2'
-
-        }
-
-        rds_credentials = {
-            'DATABASE_TYPE': "postgresql",
-            'DBAPI': "psycopg2",
-            'ENDPOINT': 'database-ai-data-collection.coybzgai5swr.eu-west-2.rds.amazonaws.com',
-            'USER': 'postgres',
-            'PASSWORD': 'Football8Inhaler1',
-            'DATABASE': 'postgres',
-            'PORT': 5432
-        }
-        return (s3_bucket_credentials, rds_credentials)
-
     def accept_cookies(self,
                        xpath: str) -> None:
         """
