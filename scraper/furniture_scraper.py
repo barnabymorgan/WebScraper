@@ -32,7 +32,7 @@ class Scraper:
             chrome_options.add_argument('--no-sandbox')
             chrome_options.add_argument('--disable-dev-shm-usage')
             chrome_options.add_argument("--window-size=1920,1080")
-            chrome_options.add_argument("--remote-debugging-port=9230")
+            # chrome_options.add_argument("--remote-debugging-port=9230")
             self.driver = (webdriver.Chrome(service=Service(
                 ChromeDriverManager().install()), options=chrome_options
                 ))
@@ -44,7 +44,7 @@ class Scraper:
                 ))
 
         self.driver.get(url)
-        self.creds = self.data_storage_credentials()
+        self.creds = self.data_storage_credentials_from_cli()
         self.creds_rds = self.creds[1]
         self.creds_s3 = self.creds[0]
 
@@ -219,7 +219,7 @@ class FurnitureScraper(Scraper):
             used to initialse the scaraper
         """
         super().__init__(url,
-                         headless=False)
+                         headless=True)
 
         self.furniture_data = {
             "uuid": [],
