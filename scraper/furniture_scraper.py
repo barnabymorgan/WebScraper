@@ -73,7 +73,7 @@ class Scraper:
         bucket_name = input('S3 Bucket name: ')
         access_key_id = input('Access Key ID: ')
         secret_access_key = input('Secret Access Key: ')
-        access_region = input('Secret Access Key: ')
+        access_region = input('Bucket Access Region: ')
         s3_bucket_credentials = {'bucket_name': bucket_name,
                                  'access_key_id': access_key_id,
                                  'secret_access_key': secret_access_key,
