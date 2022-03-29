@@ -22,22 +22,20 @@ class Scraper:
     """
     This class is a scraper that can be used to scrape websites
 
-    homepage (url): link to webpage we want to visit
-    category: section of the website
-
-    driver:
-        this is the webdriver object
+    It contains a number of functions to help scrape the data from the website
     """
     def __init__(self,
                  url: str,
                  headless: Optional[bool] = False) -> None:
         chrome_options = Options()
         """
-        
-        
+            __init__(self, url, headless)
+
+            url: link to webpage we want to visit
+            headless: selection to run in headless (bool)
+
         """
         if headless:
-            print("headless")
             chrome_options.add_argument("--headless")
             chrome_options.add_argument('--no-sandbox')
             chrome_options.add_argument('--disable-dev-shm-usage')
@@ -47,8 +45,6 @@ class Scraper:
                 ChromeDriverManager().install()), options=chrome_options
                 ))
         else:
-            print("GUI")
-
             self.driver = (webdriver.Chrome(service=Service(
                 ChromeDriverManager().install())
                 ))
@@ -377,8 +373,6 @@ class FurnitureScraper(Scraper):
                     self.furniture_name,
                     self.furniture_uuid)
 
-                print(self.chair_dict)
-
                 self.furniture_data['uuid'].append(self.furniture_uuid)
                 self.furniture_data['furniture_category'].append(self.category)
                 (self.furniture_data['long_furniture_name']
@@ -429,6 +423,8 @@ class FurnitureScraper(Scraper):
             name: name of the piece the images are relating to
 
             used to pull the images of the furniture item
+            there are a couple of ways this website has implemented image viewing
+                both have tried to be convered here 
         """
 
         # check source to see if its been scraped
@@ -439,13 +435,11 @@ class FurnitureScraper(Scraper):
             (self.driver.find_element(
                     By.XPATH, '//div[@class="cylindo-viewer-container"]'))
             self.cylindo = True
-            print("Cyli: ", self.cylindo)
         except NoSuchElementException:
             (self.driver.find_element(
                     By.XPATH,
                     "//div[@class='ProductGallery-galleryMain-3dh']"))
             self.gallery = True
-            print("Gall: ", self.gallery)
         finally:
             print("No such element")
         try:
@@ -473,7 +467,6 @@ class FurnitureScraper(Scraper):
                     (self.image_data['furniture_uuid']
                         .append(self.furniture_uuid))
                     self.image_data['image_link'].append(self.image_url)
-                    print(self.image_data)
 
             if self.gallery:
                 self.photo_container = (WebDriverWait(self.driver, 7).until(
