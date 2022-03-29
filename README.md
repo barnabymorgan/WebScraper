@@ -8,11 +8,14 @@ This project is a general purpose web scraper, with a specialisation towards scr
 
 ## Basic information
 
-Collect the statistics from http://swooneditions.com/ for the set furniture category.    
-> - Data: Name, type, description, category, images
+Collect the data from http://swooneditions.com/ for the set furniture category.    
+> - Tabular Data (furniture): ID, name, type, description, category
+> - Tabular Data (images): ID, Furniture ID (foreign key), url, link 
+> - Image Data: jpeg images are stored in an S3 bucket 
+> - This is then stored used cloud services to prevent scraping replication and promote scalability 
 
 Also collects basic information and an associated image for each game.   
-> - Tools used : Python, Selenium, SQL,   
+> - Tools used : Python, Selenium, SQL
 > - Services used: AWS S3, RDS, EC2. Github, Dockerhub, Prometheus, Grafana   
 
 ## Installation
