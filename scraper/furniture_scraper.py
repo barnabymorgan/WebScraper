@@ -20,12 +20,22 @@ from selenium.webdriver.support import expected_conditions as EC
 
 class Scraper:
     """
+    This class is a scraper that can be used to scrape websites
 
+    homepage (url): link to webpage we want to visit
+    category: section of the website
+
+    driver:
+        this is the webdriver object
     """
     def __init__(self,
                  url: str,
                  headless: Optional[bool] = False) -> None:
         chrome_options = Options()
+        """
+        
+        
+        """
         if headless:
             print("headless")
             chrome_options.add_argument("--headless")
@@ -106,6 +116,7 @@ class Scraper:
             self
 
             used to accept the cookies on the landing page
+            this is used with the "x_out_of_sign_up" function 
         """
         # WebDriverWait(self.driver, 5)
         #         .until(EC.presence_of_all_elements_located(
@@ -125,27 +136,13 @@ class Scraper:
             self
 
             used to click the x off of the email signup prompt
+            this has to be done before accepting the cookies 
         """
         try:
             x_button = self.driver.find_element(By.XPATH, xpath)
             x_button.click()
         except NotImplementedError:
             print("No sign up box found")
-
-    def click_next_page(self,
-                        xpath: str) -> None:
-        """
-            click_next_page(self)
-
-            self
-
-            used to click on the next page
-        """
-        try:
-            next_button = self.driver.find_element(By.XPATH, xpath)
-            next_button.click()
-        except NotImplementedError:
-            print("Could not go to the next page")
 
     def click_search_bar(self,
                          xpath: str) -> None:
@@ -174,6 +171,8 @@ class Scraper:
             self
 
             used to send keys (add word to search) to search bar
+            this is done after we have already found and entered the search
+                bar in order to push characters to the bar 
         """
         search_bar = self.click_search_bar(xpath)
         if search_bar:
@@ -240,6 +239,14 @@ class FurnitureScraper(Scraper):
         self.furniture_name_scraped = list(df['long_furniture_name'])
 
     def go_to_furniture_category(self) -> None:
+        """
+            go_to_furniture_category(self)
+
+            self 
+
+            used to naviagate to the desired category 
+            uses the accept cookies and send_keys functions
+        """
         self.accept_cookies()
         self.send_keys_to_search_bar(self.category,
                                      xpath='//*[@id="search"]')
@@ -250,6 +257,18 @@ class FurnitureScraper(Scraper):
                   href_xpath: str = (
                     ".//a[@class='ProductCard-productCard-3hF Link-link-2FT']")
                   ) -> list:
+        """
+            get_links(self, container,href_xpath: str) -> list:
+
+            self
+            container 
+            href_xpath: str
+
+            used to pull all the furniture links we will scrape through
+            this is more reliable than clicking on each using the mouse 
+
+            returns a list of URLs to iterate through when we search for data
+        """
         time.sleep(2)
         # list_elements = container.find_elements(By.XPATH, './div')
         number_pages = self.get_page_numbers()
@@ -273,7 +292,22 @@ class FurnitureScraper(Scraper):
     def get_page_numbers(self,
                          xpath: str = (
                             "//a[@class=' tile-button-mjy Link-link-2FT']")
-                         ) -> int:
+                         ) -> list:
+        """
+            get_page_numbers(self,xpath: str) -> int: 
+
+            self
+            xpath
+
+            used to find the other pages (if any) that need to be scraped
+                after the furniture search has been done 
+
+            returns a list of additional furniture pages to scrape  
+            E.g. ['www.example.com/link_to_page_2',
+                  'www.example.com/link_to_page_3',
+                  'www.example.com/link_to_page_4'
+                  ]
+        """
         time.sleep(2)
         pages_href = []
         number_pages = self.driver.find_elements(By.XPATH,
@@ -361,13 +395,28 @@ class FurnitureScraper(Scraper):
                                     self.engine,
                                     if_exists='replace')
 
-    def get_chair_price(self, str_price: str) -> int:
+    def get_chair_price(self, str_price: str) -> float:
+        """
+            get_chair_price(self, str_price: str)
+
+            self
+            str_price: str
+
+            used to convert the string price to a number
+
+            returns the price in a (float) number format 
+            remove any commas in the original str 
+        """
         str_price = str_price[1:].replace(',', '')
         chair_price = float(str_price)
         return chair_price
 
     def find_container(self,
                        xpath: str = "//div[@class='items-items-3Yc']") -> None:
+        """
+        
+        
+        """
         return super().find_container(xpath)
 
     def get_furniture_images(self,
