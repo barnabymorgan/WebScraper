@@ -30,18 +30,18 @@ docker run --rm -it barnabymorgan/furniture_scraper:latest
 
 Before using, you will need the following details:
 
-#S3 Bucker Details
-bucket_name
-access_key_id
-secret_access_key
-access_region
+#S3 Bucket Details
+> - bucket_name
+> - access_key_id
+> - secret_access_key
+> - access_region
 
 #Database Connection Details 
-ENDPOINT = '' #AWS Endpoint
-USER = ''
-PASSWORD = ''
-PORT= ''
-DATABASE= ''
+> - ENDPOINT = '' #AWS Endpoint
+> - USER = ''
+> - PASSWORD = ''
+> - PORT= ''
+> - DATABASE= ''
 
 After running the docker run command above, the container will start and it will ask you to input all of the information above. 
 After it has done that it will to scrape based on the furniture product provided. 
